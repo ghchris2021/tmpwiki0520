@@ -53,5 +53,5 @@ cmake -Bbuild
 cmake --build build -D...
 cd build
 cpack -G RPM
-dpkg -i *.deb
+dpkg -i *.rpm
 ```
