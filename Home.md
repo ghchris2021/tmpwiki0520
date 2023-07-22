@@ -2,7 +2,7 @@ Welcome to the llama.cpp wiki!
 
 ## Install
 
-### ArchLinux
+### [ArchLinux](https://aur.archlinux.org/packages/llama-cpp)
 
 ```sh
 yay -S llama-cpp
