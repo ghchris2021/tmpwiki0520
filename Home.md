@@ -10,10 +10,26 @@ yay -S llama-cpp-cuda
 yay -S llama-cpp-opencl
 ```
 
-### NixOS
+### Nix
 
 ```sh
-nix run github#ggerganov/llama.cpp
+nix run github:ggerganov/llama.cpp
+nix run 'github:ggerganov/llama.cpp#opencl'
+```
+
+### NixOS
+
+```nix
+{ config, pkgs, ... }:
+{
+  nixpkgs.config.packageOverrides = pkgs: {
+      llama-cpp = (
+        builtins.getFlake "github:ggerganov/llama.cpp"
+      ).packages.${builtins.currentSystem}.default;
+    };
+  };
+  environment.systemPackages = with pkgs; [ llama-cpp ]
+}
 ```
 
 ### Android Termux
