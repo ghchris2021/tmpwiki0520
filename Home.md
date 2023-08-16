@@ -42,8 +42,6 @@ apt install llama-cpp
 
 ### Windows Msys2
 
-Wait <https://github.com/msys2/MINGW-packages/issues/17808>.
-
 ```sh
 pacman -S llama-cpp
 ```
