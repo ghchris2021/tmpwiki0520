@@ -108,3 +108,7 @@ index 3413288..7578bfa 100644
 - LLaMAv2 7B, `n_past == 0`, `n_batch == 7`
 
 ![image](https://github.com/ggerganov/llama.cpp/assets/1991296/bfa28ae2-aeb0-40a6-8228-374cb0011c5d)
+
+- LLaMAv2 7B, `n_past == 4`, `n_batch == 3`
+
+![image](https://github.com/ggerganov/llama.cpp/assets/1991296/a0ba30a9-7a5d-4f94-b07f-8d3753f786f0)
