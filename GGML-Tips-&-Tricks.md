@@ -68,3 +68,43 @@ perf_total_per_op_us[      CONV_1D_2S] =   0.000 ms
 perf_total_per_op_us[      FLASH_ATTN] =   0.000 ms
 perf_total_per_op_us[        FLASH_FF] =   0.000 ms
 ```
+
+- Generate graph plots
+
+```diff
+diff --git a/llama.cpp b/llama.cpp
+index 3413288..7578bfa 100644
+--- a/llama.cpp
++++ b/llama.cpp
+@@ -2311,7 +2311,7 @@ static struct ggml_cgraph * llm_build_llama(
+     }
+     ggml_set_name(KQ_scale, "1/sqrt(n_embd_head)");
+ 
+-    for (int il = 0; il < n_layer; ++il) {
++    for (int il = 0; il < 1; ++il) {
+         ggml_format_name(inpL, "layer_inp_%d", il);
+ 
+         offload_func_t offload_func = llama_nop;
+@@ -2993,9 +2993,10 @@ static bool llama_eval_internal(
+ #endif
+ 
+     // plot the computation graph in dot format (for debugging purposes)
+-    //if (n_past%100 == 0) {
+-    //    ggml_graph_dump_dot(gf, NULL, "llama.dot");
+-    //}
++    //if (N == 7) {
++    if (n_past%45 == 0) {
++        ggml_graph_dump_dot(gf, NULL, "llama.dot");
++    }
+ 
+     // extract logits
+     {
+```
+
+- `n_past == 45`, `n_batch == 1`
+
+![image](https://github.com/ggerganov/llama.cpp/assets/1991296/93ac4a44-e7e6-4a9e-a332-b38c642847cc)
+
+- `n_past == 0`, `n_batch == 7`
+
+![image](https://github.com/ggerganov/llama.cpp/assets/1991296/bfa28ae2-aeb0-40a6-8228-374cb0011c5d)
