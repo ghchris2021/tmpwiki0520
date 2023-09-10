@@ -1,7 +1,7 @@
-[Home](https://github.com/ggerganov/llama.cpp/wiki)
+### [Home](https://github.com/ggerganov/llama.cpp/wiki)
 
-- [Install](https://github.com/ggerganov/llama.cpp/wiki#install) \
-- [ArchLinux](https://github.com/ggerganov/llama.cpp/wiki#archlinux) \
+- [Install](https://github.com/ggerganov/llama.cpp/wiki#install) 
+- [ArchLinux](https://github.com/ggerganov/llama.cpp/wiki#archlinux)
 - [Nix](https://github.com/ggerganov/llama.cpp/wiki#nix)
 - [NixOS](https://github.com/ggerganov/llama.cpp/wiki#nixos)
 - [Android Termux](https://github.com/ggerganov/llama.cpp/wiki#android-termux)
