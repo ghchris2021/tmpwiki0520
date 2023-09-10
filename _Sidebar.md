@@ -1,4 +1,4 @@
-### [Home](https://github.com/ggerganov/llama.cpp/wiki)
+[Home](https://github.com/ggerganov/llama.cpp/wiki)
 
 * [Install](https://github.com/ggerganov/llama.cpp/wiki#install)
 * [ArchLinux](https://github.com/ggerganov/llama.cpp/wiki#archlinux)
