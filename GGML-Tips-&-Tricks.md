@@ -101,6 +101,8 @@ index 3413288..7578bfa 100644
      {
 ```
 
+Note: [`n_past` is now replaced with `batch.pos[]`](https://github.com/ggerganov/llama.cpp/issues/4819#issuecomment-1880471864)
+
 - LLaMAv2 7B, `n_past == 45`, `n_batch == 1`
 
 ![image](https://github.com/ggerganov/llama.cpp/assets/1991296/93ac4a44-e7e6-4a9e-a332-b38c642847cc)
