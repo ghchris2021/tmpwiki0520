@@ -79,3 +79,16 @@ response</s>
 ```
 
 Additionally, we also support zephyr template (I cannot found it on huggingface, but have seen in [this list](https://github.com/ggerganov/llama.cpp/blob/c8d847d57efdc0f9bbbf881d48c645e151b36fd8/examples/server/public/promptFormats.js) )
+
+```
+<|system|>
+test<|endoftext|>
+<|user|>
+hello<|endoftext|>
+<|assistant|>
+response<|endoftext|>
+<|user|>
+again<|endoftext|>
+<|assistant|>
+response<|endoftext|>
+```
