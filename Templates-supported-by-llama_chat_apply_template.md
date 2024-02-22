@@ -16,21 +16,33 @@ VARIANTS_TO_TEST = [
     'TheBloke/FusionNet_34Bx2_MoE-AWQ',
     'bofenghuang/vigogne-2-70b-chat',
     'mlabonne/AlphaMonarch-7B',
+    'google/gemma-7b-it',
 ]
+
+HISTORY = [
+    { 'role': 'system', 'content': 'test' },
+    { 'role': 'user', 'content': 'hello' },
+    { 'role': 'assistant', 'content': 'response' },
+    { 'role': 'user', 'content': 'again' },
+    { 'role': 'assistant', 'content': 'response' },
+]
+
 for variant in VARIANTS_TO_TEST:
-    tokenizer = AutoTokenizer.from_pretrained(variant)
-    history = [
-        { 'role': 'system', 'content': 'test' },
-        { 'role': 'user', 'content': 'hello' },
-        { 'role': 'assistant', 'content': 'response' },
-        { 'role': 'user', 'content': 'again' },
-        { 'role': 'assistant', 'content': 'response' },
-    ]
-    if 'Mistral' in variant:
-        history.pop(0) # no system prompt for mistral
-    print(variant)
-    print(tokenizer.apply_chat_template(history, tokenize=False))
-    print('-' * 30)
+    history = [m for m in HISTORY] # copy
+    if 'Mistral' in variant or 'gemma' in variant:
+        history.pop(0) # no system prompt for mistral and gemma
+    if 'gemma' in variant:
+        # GemmaTokenizer is not yet support by the time this code is written
+        GEMMA_TMLP = "{% if messages[0]['role'] == 'system' %}{{ raise_exception('System role not supported') }}{% endif %}{% for message in messages %}{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}{% endif %}{% if (message['role'] == 'assistant') %}{% set role = 'model' %}{% else %}{% set role = message['role'] %}{% endif %}{{ '<start_of_turn>' + role + '\n' + message['content'] | trim + '<end_of_turn>\n' }}{% endfor %}{% if add_generation_prompt %}{{'<start_of_turn>model\n'}}{% endif %}"
+        print('Gemma')
+        output = AutoTokenizer.from_pretrained(VARIANTS_TO_TEST[0]).apply_chat_template(history, tokenize=False, chat_template=GEMMA_TMLP)
+        print(output)
+        print('-' * 30)
+    else:
+        print(variant)
+        tokenizer = AutoTokenizer.from_pretrained(variant)
+        print(tokenizer.apply_chat_template(history, tokenize=False))
+        print('-' * 30)
 ```
 </details>
 
@@ -74,6 +86,17 @@ response</s>
 again</s>
 <s>assistant
 response</s>
+
+------------------------------
+Gemma
+<start_of_turn>user
+hello<end_of_turn>
+<start_of_turn>model
+response<end_of_turn>
+<start_of_turn>user
+again<end_of_turn>
+<start_of_turn>model
+response<end_of_turn>
 
 ------------------------------
 ```
