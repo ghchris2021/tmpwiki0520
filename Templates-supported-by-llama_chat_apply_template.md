@@ -1,6 +1,6 @@
 The `llama_chat_apply_template()` was added in [#5538](https://github.com/ggerganov/llama.cpp/pull/5538), which allows developers to format the chat into text prompt. By default, this function takes the template stored inside model's metadata `tokenizer.chat_template`.
 
-Please not that, we do **not** include a jinja parser in llama.cpp due to its complexity. Our implementation works by matching the supplied template with a list of pre-defined templates hard-coded inside the function.
+NOTE: We do **not** include a jinja parser in llama.cpp due to its complexity. Our implementation works by matching the supplied template with a list of pre-defined templates hard-coded inside the function.
 
 This is the list of templates currently supported by `llama_apply_chat_template`. If you found another template on huggingface that's not yet supported by llama.cpp, please feel free to open an issue:
 
