@@ -66,6 +66,7 @@ mistralai/Mistral-7B-Instruct-v0.2
 ```
 
 ```
+(Currently cannot select this template with --chat-template)
 TheBloke/FusionNet_34Bx2_MoE-AWQ
 [INST] <<SYS>>
 test
@@ -75,6 +76,7 @@ hello [/INST] response </s><s>[INST] again [/INST] response </s>
 ```
 
 ```
+(Currently cannot select this template with --chat-template)
 bofenghuang/vigogne-2-70b-chat
 <s>[INST] <<SYS>>
 test
