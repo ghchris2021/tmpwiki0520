@@ -4,6 +4,8 @@ Please not that, we do **not** include a jinja parser in llama.cpp due to its co
 
 This is the list of templates currently supported by `llama_apply_chat_template`. If you found another template on huggingface that's not yet supported by llama.cpp, please feel free to open an issue:
 
+## Supported templates
+
 <details>
 <summary>Python code</summary>
 
@@ -128,3 +130,11 @@ again<|endoftext|>
 <|assistant|>
 response<|endoftext|>
 ```
+
+## Custom chat templates
+
+Currently, it's not possible to use your own chat template with `/chat/completions`
+
+One of the possible solutions is use `/completions` endpoint instead, and write your own code (for example, using python) to apply a template before passing the final prompt to `/completions`
+
+TODO: write demo python code
