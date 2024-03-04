@@ -1,6 +1,6 @@
 The `llama_chat_apply_template()` was added in [#5538](https://github.com/ggerganov/llama.cpp/pull/5538), which allows developers to format the chat into text prompt. By default, this function takes the template stored inside model's metadata `tokenizer.chat_template`.
 
-To reduce the complexity of the implementation, we do **not** include a jinja parser in the project. This function works by matching the supplied template with a list of pre-defined templates hard-coded inside the function.
+Please not that, we do **not** include a jinja parser in llama.cpp due to its complexity. Our implementation works by matching the supplied template with a list of pre-defined templates hard-coded inside the function.
 
 This is the list of templates currently supported by `llama_apply_chat_template`. If you found another template on huggingface that's not yet supported by llama.cpp, please feel free to open an issue:
 
@@ -47,6 +47,7 @@ for variant in VARIANTS_TO_TEST:
 </details>
 
 ```
+Usage: ./server -m ... --chat-template chatml
 teknium/OpenHermes-2.5-Mistral-7B
 <|im_start|>user
 hello<|im_end|>
@@ -56,25 +57,34 @@ response<|im_end|>
 again<|im_end|>
 <|im_start|>assistant
 response<|im_end|>
+```
 
-------------------------------
+```
+Usage: ./server -m ... --chat-template llama2
 mistralai/Mistral-7B-Instruct-v0.2
 <s>[INST] hello [/INST]response</s>[INST] again [/INST]response</s>
-------------------------------
+```
+
+```
 TheBloke/FusionNet_34Bx2_MoE-AWQ
 [INST] <<SYS>>
 test
 <</SYS>>
 
 hello [/INST] response </s><s>[INST] again [/INST] response </s>
-------------------------------
+```
+
+```
 bofenghuang/vigogne-2-70b-chat
 <s>[INST] <<SYS>>
 test
 <</SYS>>
 
 hello [/INST] response </s>[INST] again [/INST] response </s>
-------------------------------
+```
+
+```
+Usage: ./server -m ... --chat-template monarch
 mlabonne/AlphaMonarch-7B
 <s>system
 test</s>
@@ -86,9 +96,11 @@ response</s>
 again</s>
 <s>assistant
 response</s>
+```
 
-------------------------------
-Gemma
+```
+Usage: ./server -m ... --chat-template gemma
+google/gemma-7b-it
 <start_of_turn>user
 hello<end_of_turn>
 <start_of_turn>model
@@ -97,13 +109,12 @@ response<end_of_turn>
 again<end_of_turn>
 <start_of_turn>model
 response<end_of_turn>
-
-------------------------------
 ```
 
 Additionally, we also support zephyr template (I cannot find it on huggingface, but have seen in [this list](https://github.com/ggerganov/llama.cpp/blob/c8d847d57efdc0f9bbbf881d48c645e151b36fd8/examples/server/public/promptFormats.js) )
 
 ```
+Usage: ./server -m ... --chat-template zephyr
 <|system|>
 test<|endoftext|>
 <|user|>
