@@ -133,7 +133,7 @@ response<|endoftext|>
 
 ## Custom chat templates
 
-Currently, it's not possible to use your own chat template with `/chat/completions`
+Currently, it's not possible to use your own chat template with llama.cpp server's `/chat/completions`
 
 One of the possible solutions is use `/completions` endpoint instead, and write your own code (for example, using python) to apply a template before passing the final prompt to `/completions`
 
