@@ -3,7 +3,9 @@
 | **K-quants**         | ✅              | ✅                  | ✅         | ✅          | ✅                | ✅        | ✅           | ✅          | 🚫           |
 | **I-quants**         | ✅ (SLOW)       | ✅ (SLOW)           | ✅ (SLOW)  | ✅          | ✅                | Partial¹        | 🚫           | 🚫          | 🚫           |
 | **Multi-GPU**        | N/A            | N/A                | N/A       | ✅          | ❓                | 🚫        | ❓           | ✅          | ❓           |
-|  **K cache quants**  | ✅              | ❓                  | ❓         | ✅          | Only q8_0 (SLOW) | ❓        | ✅           | 🚫          | 🚫           |
-| **MoE architecture** | ✅              | ❓                  | ✅         | ✅          | ✅                | ❓        | Only -ngl 0 | 🚫          | 🚫           |
+|  **K cache quants**  | ✅              | ❓                  | ❓         | ✅          | Partial³ (SLOW) | ❓        | ✅           | 🚫          | 🚫           |
+| **MoE architecture** | ✅              | ❓                  | ✅         | ✅          | ✅                | ❓        | Partial² | 🚫          | 🚫           |
 
 * ¹: IQ3_S and IQ1_S, see #5886
+* ²: Only with `-ngl 0`
+* ³: Only `-ctk q8_0`
