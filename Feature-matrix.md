@@ -14,4 +14,4 @@
 * ²: Only with `-ngl 0`
 * ³: Only `-ctk q8_0`, inference is 50% slower
 * ⁴: Slower than K-quants of comparable size
-* ⁵: Slower than hipBLAS/cuBLAS on similar cards
+* ⁵: Slower than cuBLAS/rocBLAS on similar cards
