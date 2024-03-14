@@ -19,6 +19,7 @@ VARIANTS_TO_TEST = [
     'bofenghuang/vigogne-2-70b-chat',
     'mlabonne/AlphaMonarch-7B',
     'google/gemma-7b-it',
+    'OrionStarAI/Orion-14B-Chat',
 ]
 
 HISTORY = [
@@ -34,7 +35,7 @@ for variant in VARIANTS_TO_TEST:
     if 'Mistral' in variant or 'gemma' in variant:
         history.pop(0) # no system prompt for mistral and gemma
     if 'gemma' in variant:
-        # GemmaTokenizer is not yet support by the time this code is written
+        # GemmaTokenizer is quite buggy, let's hard code the template here
         GEMMA_TMLP = "{% if messages[0]['role'] == 'system' %}{{ raise_exception('System role not supported') }}{% endif %}{% for message in messages %}{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}{% endif %}{% if (message['role'] == 'assistant') %}{% set role = 'model' %}{% else %}{% set role = message['role'] %}{% endif %}{{ '<start_of_turn>' + role + '\n' + message['content'] | trim + '<end_of_turn>\n' }}{% endfor %}{% if add_generation_prompt %}{{'<start_of_turn>model\n'}}{% endif %}"
         print('Gemma')
         output = AutoTokenizer.from_pretrained(VARIANTS_TO_TEST[0]).apply_chat_template(history, tokenize=False, chat_template=GEMMA_TMLP)
@@ -129,6 +130,15 @@ response<|endoftext|>
 again<|endoftext|>
 <|assistant|>
 response<|endoftext|>
+```
+
+```
+Usage: ./server -m ... --chat-template orion
+<s>Human: hello
+
+Assistant: </s>response</s>Human: again
+
+Assistant: </s>response</s>
 ```
 
 ## Custom chat templates
