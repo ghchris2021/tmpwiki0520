@@ -116,6 +116,15 @@ again<end_of_turn>
 response<end_of_turn>
 ```
 
+```
+Usage: ./server -m ... --chat-template orion
+<s>Human: hello
+
+Assistant: </s>response</s>Human: again
+
+Assistant: </s>response</s>
+```
+
 Additionally, we also support zephyr template (I cannot find it on huggingface, but have seen in [this list](https://github.com/ggerganov/llama.cpp/blob/c8d847d57efdc0f9bbbf881d48c645e151b36fd8/examples/server/public/promptFormats.js) )
 
 ```
@@ -130,15 +139,6 @@ response<|endoftext|>
 again<|endoftext|>
 <|assistant|>
 response<|endoftext|>
-```
-
-```
-Usage: ./server -m ... --chat-template orion
-<s>Human: hello
-
-Assistant: </s>response</s>Human: again
-
-Assistant: </s>response</s>
 ```
 
 ## Custom chat templates
