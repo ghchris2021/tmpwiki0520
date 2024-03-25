@@ -126,11 +126,6 @@ Assistant: </s>response</s>Human: again
 Assistant: </s>response</s>
 ```
 
-```
-Usage: ./server -m ... --chat-template minicpm
-test<用户>hello<AI>response<用户>again<AI>response
-```
-
 Additionally, we also support zephyr template (I cannot find it on huggingface, but have seen in [this list](https://github.com/ggerganov/llama.cpp/blob/c8d847d57efdc0f9bbbf881d48c645e151b36fd8/examples/server/public/promptFormats.js) )
 
 ```
