@@ -142,6 +142,56 @@ again<|endoftext|>
 response<|endoftext|>
 ```
 
+```
+Usage: ./server -m ... --chat-template openchat
+openchat/openchat-3.5-0106
+<s>GPT4 Correct System: You are a helpful assistant<|end_of_turn|>GPT4 Correct User: Hello<|end_of_turn|>GPT4 Correct Assistant: Hi there<|end_of_turn|>GPT4 Correct User: Who are you<|end_of_turn|>GPT4 Correct Assistant:    I am an assistant   <|end_of_turn|>GPT4 Correct User: Another question<|end_of_turn|>GPT4 Correct Assistant:
+```
+
+```
+Usage: ./server -m ... --chat-template vicuna
+NousResearch/Nous-Capybara-34B
+You are a helpful assistant
+
+USER: Hello
+ASSISTANT: Hi there</s>
+USER: Who are you
+ASSISTANT:    I am an assistant   </s>
+USER: Another question
+ASSISTANT:
+```
+
+```
+Usage: ./server -m ... --chat-template vicuna-orca
+migtissera/Tess-2.0-Yi-34B-200K
+SYSTEM: You are a helpful assistant
+USER: Hello
+ASSISTANT: Hi there</s>
+USER: Who are you
+ASSISTANT:    I am an assistant   </s>
+USER: Another question
+ASSISTANT:
+```
+
+```
+Usage: ./server -m ... --chat-template deepseek
+deepseek-ai/deepseek-coder-33b-instruct
+<｜begin▁of▁sentence｜>You are a helpful assistant### Instruction:
+Hello
+### Response:
+Hi there
+<|EOT|>
+### Instruction:
+Who are you
+### Response:
+   I am an assistant   
+<|EOT|>
+### Instruction:
+Another question
+### Response:
+
+```
+
 ## Custom chat templates
 
 Currently, it's not possible to use your own chat template with llama.cpp server's `/chat/completions`
