@@ -6,50 +6,6 @@ This is the list of templates currently supported by `llama_apply_chat_template`
 
 ## Supported templates
 
-<details>
-<summary>Python code</summary>
-
-```python
-from transformers import AutoTokenizer
-
-VARIANTS_TO_TEST = [
-    'teknium/OpenHermes-2.5-Mistral-7B',
-    'mistralai/Mistral-7B-Instruct-v0.2',
-    'TheBloke/FusionNet_34Bx2_MoE-AWQ',
-    'bofenghuang/vigogne-2-70b-chat',
-    'mlabonne/AlphaMonarch-7B',
-    'google/gemma-7b-it',
-    'OrionStarAI/Orion-14B-Chat',
-    'openbmb/MiniCPM-2B-dpo-fp32',
-]
-
-HISTORY = [
-    { 'role': 'system', 'content': 'test' },
-    { 'role': 'user', 'content': 'hello' },
-    { 'role': 'assistant', 'content': 'response' },
-    { 'role': 'user', 'content': 'again' },
-    { 'role': 'assistant', 'content': 'response' },
-]
-
-for variant in VARIANTS_TO_TEST:
-    history = [m for m in HISTORY] # copy
-    if 'Mistral' in variant or 'gemma' in variant:
-        history.pop(0) # no system prompt for mistral and gemma
-    if 'gemma' in variant:
-        # GemmaTokenizer is quite buggy, let's hard code the template here
-        GEMMA_TMLP = "{% if messages[0]['role'] == 'system' %}{{ raise_exception('System role not supported') }}{% endif %}{% for message in messages %}{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}{% endif %}{% if (message['role'] == 'assistant') %}{% set role = 'model' %}{% else %}{% set role = message['role'] %}{% endif %}{{ '<start_of_turn>' + role + '\n' + message['content'] | trim + '<end_of_turn>\n' }}{% endfor %}{% if add_generation_prompt %}{{'<start_of_turn>model\n'}}{% endif %}"
-        print('Gemma')
-        output = AutoTokenizer.from_pretrained(VARIANTS_TO_TEST[0]).apply_chat_template(history, tokenize=False, chat_template=GEMMA_TMLP)
-        print(output)
-        print('-' * 30)
-    else:
-        print(variant)
-        tokenizer = AutoTokenizer.from_pretrained(variant)
-        print(tokenizer.apply_chat_template(history, tokenize=False))
-        print('-' * 30)
-```
-</details>
-
 ```
 Usage: ./server -m ... --chat-template chatml
 teknium/OpenHermes-2.5-Mistral-7B
@@ -126,22 +82,6 @@ Assistant: </s>response</s>Human: again
 Assistant: </s>response</s>
 ```
 
-Additionally, we also support zephyr template (I cannot find it on huggingface, but have seen in [this list](https://github.com/ggerganov/llama.cpp/blob/c8d847d57efdc0f9bbbf881d48c645e151b36fd8/examples/server/public/promptFormats.js) )
-
-```
-Usage: ./server -m ... --chat-template zephyr
-<|system|>
-test<|endoftext|>
-<|user|>
-hello<|endoftext|>
-<|assistant|>
-response<|endoftext|>
-<|user|>
-again<|endoftext|>
-<|assistant|>
-response<|endoftext|>
-```
-
 ```
 Usage: ./server -m ... --chat-template openchat
 openchat/openchat-3.5-0106
@@ -191,6 +131,88 @@ Another question
 ### Response:
 
 ```
+
+Additionally, we also support zephyr template (I cannot find it on huggingface, but have seen in [this list](https://github.com/ggerganov/llama.cpp/blob/c8d847d57efdc0f9bbbf881d48c645e151b36fd8/examples/server/public/promptFormats.js) )
+
+```
+Usage: ./server -m ... --chat-template zephyr
+<|system|>
+test<|endoftext|>
+<|user|>
+hello<|endoftext|>
+<|assistant|>
+response<|endoftext|>
+<|user|>
+again<|endoftext|>
+<|assistant|>
+response<|endoftext|>
+```
+
+## How to add a new template
+
+1. Check the `chat_template` in the model's HuggingFace `tokenizer_config.json` [(example)](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/blob/main/tokenizer_config.json#L42).
+	- If there isn't one, open an issue first to discuss. Some older models actually predate chat templates and multi-turn responses and would be difficult to support.
+2. Use the following python script to generate a test conversation.
+    <details>
+    <summary>Script</summary>
+
+	```python
+    from transformers import AutoTokenizer
+
+    VARIANTS_TO_TEST = [
+        'teknium/OpenHermes-2.5-Mistral-7B',
+        'mistralai/Mistral-7B-Instruct-v0.2',
+        'TheBloke/FusionNet_34Bx2_MoE-AWQ',
+        'bofenghuang/vigogne-2-70b-chat',
+        'mlabonne/AlphaMonarch-7B',
+        'google/gemma-7b-it',
+        'OrionStarAI/Orion-14B-Chat',
+        'openbmb/MiniCPM-2B-dpo-fp32',
+        'openchat/openchat-3.5-0106',
+        'deepseek-ai/deepseek-coder-33b-instruct',
+        # Replace with your model's HuggingFace name
+    ]
+
+    HISTORY = [
+        { 'role': 'system', 'content': 'You are a helpful assistant' },
+        { 'role': 'user', 'content': 'Hello' },
+        { 'role': 'assistant', 'content': 'Hi there' },
+        { 'role': 'user', 'content': 'Who are you' },
+        { 'role': 'assistant', 'content': '   I am an assistant   ' },
+        { 'role': 'user', 'content': 'Another question' },
+    ]
+
+    for variant in VARIANTS_TO_TEST:
+        history = [m for m in HISTORY] # copy
+        if 'Mistral' in variant or 'gemma' in variant:
+            history.pop(0) # no system prompt for mistral and gemma
+        if 'gemma' in variant:
+            # GemmaTokenizer is quite buggy, let's hard code the template here
+            GEMMA_TMLP = "{% if messages[0]['role'] == 'system' %}{{ raise_exception('System role not supported') }}{% endif %}{% for message in messages %}{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}{% endif %}{% if (message['role'] == 'assistant') %}{% set role = 'model' %}{% else %}{% set role = message['role'] %}{% endif %}{{ '<start_of_turn>' + role + '\n' + message['content'] | trim + '<end_of_turn>\n' }}{% endfor %}{% if add_generation_prompt %}{{'<start_of_turn>model\n'}}{% endif %}"
+            print("\n----- Gemma -----")
+            output = AutoTokenizer.from_pretrained(VARIANTS_TO_TEST[0]).apply_chat_template(history, tokenize=False, add_generation_prompt=True, chat_template=GEMMA_TMLP)
+            print(output)
+            print("\n[Test String]\n// google/gemma-7b-it")
+            print(output.replace("\n", "\\n"))
+            print('"' + output.replace("\n", "\\n") + '",')
+        else:
+            print("\n----- " + variant + " -----")
+            tokenizer = AutoTokenizer.from_pretrained(variant)
+            output = tokenizer.apply_chat_template(history, tokenize=False, add_generation_prompt=True)
+            print(output)
+            print("\n[Test String]\n// " + variant)
+            print('"' + output.replace("\n", "\\n") + '",')
+	```
+	</details>
+
+3. Copy both the `chat_template` from HuggingFace and the formatted text below `[Test String]` into [tests/test-chat-template.cpp](https://github.com/ggerganov/llama.cpp/blob/master/tests/test-chat-template.cpp).
+
+4. Run `make tests/test-chat-template`. You can now use this test to verify that your template implementation is identical to the original.
+
+5. Implement your template in llama.cpp (search for `llama_chat_apply_template_internal`). 
+	- This function attempts to detect the model's template when it's not specified. This uses the model's `chat_template` metadata, so pick a unique pattern.
+
+6. `make` and run the test. Repeat until the output matches the original!
 
 ## Custom chat templates
 
