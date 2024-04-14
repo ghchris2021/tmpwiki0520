@@ -116,7 +116,7 @@ ASSISTANT:
 ```
 Usage: ./server -m ... --chat-template deepseek
 deepseek-ai/deepseek-coder-33b-instruct
-<｜begin▁of▁sentence｜>You are a helpful assistant### Instruction:
+You are a helpful assistant### Instruction:
 Hello
 ### Response:
 Hi there
@@ -130,6 +130,12 @@ Who are you
 Another question
 ### Response:
 
+```
+
+```
+Usage: ./server -m ... --chat-template command-r
+CohereForAI/c4ai-command-r-plus
+<|START_OF_TURN_TOKEN|><|SYSTEM_TOKEN|>You are a helpful assistant<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Hello<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>Hi there<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Who are you<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>I am an assistant<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Another question<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>
 ```
 
 Additionally, we also support zephyr template (I cannot find it on huggingface, but have seen in [this list](https://github.com/ggerganov/llama.cpp/blob/c8d847d57efdc0f9bbbf881d48c645e151b36fd8/examples/server/public/promptFormats.js) )
