@@ -56,3 +56,4 @@ This is not definitive, but is helpful when reading sourcecode or console output
 | IQ4_NL   | GGML_FTYPE_MOSTLY_IQ4_NL        | GGML_TYPE_IQ4_NL        | 4.5         | i-quantization                | Superblocks with 16 blocks, each block has 16 weights                  | w = [non linear mapping of quants to weights]   | [llama.cpp PR: IQ4_NL: 4-bit non-linear quants with blocks of 32 #5590](https://github.com/ggerganov/llama.cpp/pull/5590) |
 | IQ4_XS   | GGML_FTYPE_MOSTLY_IQ4_XS        | GGML_TYPE_IQ4_XS        | 4.25        | i-quantization                | Superblocks with 8 blocks, each block has 32 weights                   | w = func(superblock_scale, importance_matrix)   | [llama.cpp PR: IQ4_XS: a 4.25 bpw quantization #5747](https://github.com/ggerganov/llama.cpp/pull/5747) |
 
+* All superblocks have fp16 scaling factor and contains up to 256 weights. Number of weights in a block must be divisible by 256. (To be confirmed)
