@@ -56,3 +56,43 @@ This is not definitive, but is helpful when reading sourcecode or console output
 | IQ4_XS   | GGML_FTYPE_MOSTLY_IQ4_XS        | GGML_TYPE_IQ4_XS        | 4.25        | i-quantization                | Superblocks has  8 blocks ( 32 weights per block)                      | w = func(superblock_scale, importance_matrix)   | [llama.cpp PR: IQ4_XS: a 4.25 bpw quantization #5747](https://github.com/ggerganov/llama.cpp/pull/5747) |
 
 * All superblocks have fp16 scaling factor and contains up to 256 weights. Number of weights in a block must be divisible by 256. (To be confirmed)
+
+## Where to find the structure of these tensors in the code?
+
+You would find it all usually in `ggml-common.h` where it typically be of this form
+
+### Blocks
+
+```c
+#define QK4_0 32
+typedef struct {
+    ggml_half d;           // delta
+    uint8_t qs[QK4_0 / 2]; // nibbles / quants
+} block_q4_0;
+static_assert(sizeof(block_q4_0) == sizeof(ggml_half) + QK4_0 / 2, "wrong q4_0 block size/padding");
+```
+
+### Superblocks
+
+```c
+//
+// Super-block quantization structures
+//
+
+// 2-bit quantization
+// weight is represented as x = a * q + b
+// 16 blocks of 16 elements each
+// Effectively 2.625 bits per weight
+typedef struct {
+    uint8_t scales[QK_K/16]; // scales and mins, quantized with 4 bits
+    uint8_t qs[QK_K/4];      // quants
+    union {
+        struct {
+            ggml_half d;    // super-block scale for quantized scales
+            ggml_half dmin; // super-block scale for quantized mins
+        } GGML_COMMON_AGGR;
+        ggml_half2 dm;
+    };
+} block_q2_K;
+static_assert(sizeof(block_q2_K) == 2*sizeof(ggml_half) + QK_K/16 + QK_K/4, "wrong q2_K block size/padding");
+```
