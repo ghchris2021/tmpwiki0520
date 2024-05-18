@@ -11,6 +11,8 @@
     - [Redhat](https://github.com/ggerganov/llama.cpp/wiki#redhat)
     - [GGML Tips & Tricks](https://github.com/ggerganov/llama.cpp/wiki/GGML-Tips-&-Tricks)
 * [[Feature Matrix]]
+* [[GGML Tips & Tricks]]
+* [Chat Templating](https://github.com/ggerganov/llama.cpp/wiki/Templates-supported-by-llama_chat_apply_template)
 
 # Technical Details
 
