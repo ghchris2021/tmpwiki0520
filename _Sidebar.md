@@ -1,5 +1,7 @@
 # Users Guide
 
+Useful information for users that doesn't fit into Readme.
+
 * [Home](https://github.com/ggerganov/llama.cpp/wiki)
     - [Install](https://github.com/ggerganov/llama.cpp/wiki#install)
     - [ArchLinux](https://github.com/ggerganov/llama.cpp/wiki#archlinux)
