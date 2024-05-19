@@ -7,4 +7,6 @@
 
 ## Maintainers Specific Acronyms and Terminology 
 
+These are keywords in code that is not typically of importance to users.
+
 * FA - Flash Attention
