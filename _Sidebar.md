@@ -20,3 +20,4 @@ Useful information for users that doesn't fit into Readme.
 These are information useful for Maintainers and Developers which does not fit into code comments
 
 [[Tensor-Encoding-Schemes]]
+[[Terminology]]
